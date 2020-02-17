@@ -19,6 +19,7 @@ namespace SystemManagementApp
             helper.GetBIOSVersion();
             helper.GetSystemModel();
             helper.GetPortNameAndFriednlyName();
+            helper.GetOsVersion();
 
             stopWatcher.Stop();
             Console.WriteLine(stopWatcher.Elapsed);

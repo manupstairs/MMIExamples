@@ -20,6 +20,7 @@ namespace MMIExamples
             mmiWarpper.GetBIOSVersion();
             mmiWarpper.GetSystemModel();
             mmiWarpper.GetPortNameAndFriednlyName();
+            mmiWarpper.GetOsVersion();
 
             stopWatcher.Stop();
             Console.WriteLine(stopWatcher.Elapsed);

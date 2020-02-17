@@ -33,16 +33,16 @@ namespace SystemManagementApp
             string biosVersion = string.Empty;
 
 
-                using (var manageClassInstance = new ManagementClass("Win32_BIOS"))
+            using (var manageClassInstance = new ManagementClass("Win32_BIOS"))
+            {
+                ManagementObjectCollection collection = manageClassInstance.GetInstances();
+                foreach (ManagementObject obj in collection)
                 {
-                    ManagementObjectCollection collection = manageClassInstance.GetInstances();
-                    foreach (ManagementObject obj in collection)
-                    {
-                        biosVersion = obj["SMBIOSBIOSVersion"].ToString();
+                    biosVersion = obj["SMBIOSBIOSVersion"].ToString();
                     Console.WriteLine(biosVersion);
-                        break;
-                    }
+                    break;
                 }
+            }
         }
 
         public string GetSystemModel()
@@ -85,6 +85,20 @@ namespace SystemManagementApp
             }
         }
 
+        public string GetOsVersion()
+        {
 
+            var query = "SELECT * FROM Win32_OperatingSystem";
+            using (var searcher = new ManagementObjectSearcher(query))
+            {
+                var info = searcher.Get().Cast<ManagementObject>().FirstOrDefault();
+                var version = info.Properties["Version"].Value.ToString();
+                var OsVersion = version.Split('.');
+                var _version = string.Format("{0}.{1}", OsVersion[0], OsVersion[1]);
+                Console.WriteLine(_version);
+                return _version;
+            }
+
+        }
     }
 }

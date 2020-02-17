@@ -84,5 +84,21 @@ namespace MMILibrary
 
             Console.WriteLine("{0}", friendlyName);
         }
+
+        public string GetOsVersion()
+        {
+            var query = "SELECT * FROM Win32_OperatingSystem";
+            CimSession cimSession = CimSession.Create("localhost");
+            IEnumerable<CimInstance> queryInstances =
+             cimSession.QueryInstances(@"root\cimv2", "WQL", query);
+
+            var cimInstance = queryInstances.FirstOrDefault();
+
+            var version = cimInstance?.CimInstanceProperties["Version"].Value.ToString();
+
+            Console.WriteLine("{0}", version);
+
+            return version;
+        }
     }
 }
