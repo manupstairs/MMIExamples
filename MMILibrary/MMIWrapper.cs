@@ -110,8 +110,21 @@ namespace MMILibrary
         {
             string query = "SELECT * FROM Win32_DeviceChangeEvent";
 
-            IObservable<CimSubscriptionResult> queryInstances = CimSession.SubscribeAsync(CimNamespace, "WQL", query);
-            var observer = new TouchScreenObserver<CimSubscriptionResult>();
+            SubscribeCimSessionEvent(CimNamespace, query);
+        }
+
+        public void SubscribeBIOSEvent()
+        {
+            string namespaceName = @"\\.\root\WMI";
+            string query = "SELECT Data FROM BiosEvent";
+
+            SubscribeCimSessionEvent(namespaceName, query);
+        }
+
+        private void SubscribeCimSessionEvent(string namespaceName, string query)
+        {
+            IObservable<CimSubscriptionResult> queryInstances = CimSession.SubscribeAsync(namespaceName, "WQL", query);
+            var observer = new MMIObserver<CimSubscriptionResult>();
             TouchScreenDisposeAble = queryInstances.Subscribe(observer);
         }
     }

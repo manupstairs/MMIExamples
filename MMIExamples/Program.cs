@@ -21,6 +21,8 @@ namespace MMIExamples
             mmiWarpper.GetSystemModel();
             mmiWarpper.GetPortNameAndFriednlyName();
             mmiWarpper.GetOsVersion();
+            mmiWarpper.SubscribeTouchScreenEvent();
+            mmiWarpper.SubscribeBIOSEvent();
 
             stopWatcher.Stop();
             Console.WriteLine(stopWatcher.Elapsed);

@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace MMILibrary
 {
-    class TouchScreenObserver<T> : IObserver<T>, IDisposable
+    class MMIObserver<T> : IObserver<T>, IDisposable
     {
         private readonly ManualResetEventSlim doneEvent = new ManualResetEventSlim(false);
 
@@ -50,7 +50,11 @@ namespace MMILibrary
             if (subscriptionResult != null)
             {
                 var cimInstance = subscriptionResult.Instance;
-                Console.WriteLine("test");
+                foreach (var item in cimInstance.CimInstanceProperties)
+                {
+                    Console.WriteLine(item.Name);
+                    Console.WriteLine(item.Value);
+                }
             }
         }
     }
