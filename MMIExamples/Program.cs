@@ -23,6 +23,7 @@ namespace MMIExamples
             mmiWarpper.GetOsVersion();
             mmiWarpper.SubscribeTouchScreenEvent();
             mmiWarpper.SubscribeBIOSEvent();
+            mmiWarpper.SubscribeBrightnessEvent();
 
             stopWatcher.Stop();
             Console.WriteLine(stopWatcher.Elapsed);

@@ -113,6 +113,14 @@ namespace MMILibrary
             SubscribeCimSessionEvent(CimNamespace, query);
         }
 
+        public void SubscribeBrightnessEvent()
+        {
+            string namespaceName = "root\\WMI";
+            string query = "SELECT Brightness from WmiMonitorBrightnessEvent";
+
+            SubscribeCimSessionEvent(namespaceName, query);
+        }
+
         public void SubscribeBIOSEvent()
         {
             string namespaceName = @"\\.\root\WMI";
