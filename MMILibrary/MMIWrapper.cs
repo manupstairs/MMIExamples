@@ -8,6 +8,11 @@ namespace MMILibrary
 {
     public class MMIWrapper
     {
+        private CimSession CimSession => CimSession.Create("localhost");
+        private string CimNamespace => @"root\cimv2";
+
+        private IDisposable TouchScreenDisposeAble { get; set; }
+
         public void GetAssetTagAndExpressServiceCode()
         {
             CimSession cimSession = CimSession.Create("localhost");
@@ -99,6 +104,15 @@ namespace MMILibrary
             Console.WriteLine("{0}", version);
 
             return version;
+        }
+
+        public void SubscribeTouchScreenEvent()
+        {
+            string query = "SELECT * FROM Win32_DeviceChangeEvent";
+
+            IObservable<CimSubscriptionResult> queryInstances = CimSession.SubscribeAsync(CimNamespace, "WQL", query);
+            var observer = new TouchScreenObserver<CimSubscriptionResult>();
+            TouchScreenDisposeAble = queryInstances.Subscribe(observer);
         }
     }
 }

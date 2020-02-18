@@ -1,0 +1,57 @@
+﻿using Microsoft.Management.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+
+namespace MMILibrary
+{
+    class TouchScreenObserver<T> : IObserver<T>, IDisposable
+    {
+        private readonly ManualResetEventSlim doneEvent = new ManualResetEventSlim(false);
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                doneEvent.Dispose();
+            }
+
+            disposed = true;
+        }
+
+        private bool disposed = true;
+
+        public void OnCompleted()
+        {
+            this.doneEvent.Set();
+        }
+
+        public void OnError(Exception error)
+        {
+            this.doneEvent.Set();
+            throw error;
+        }
+
+        public void OnNext(T value)
+        {
+            CimSubscriptionResult subscriptionResult = value as CimSubscriptionResult;
+            if (subscriptionResult != null)
+            {
+                var cimInstance = subscriptionResult.Instance;
+                Console.WriteLine("test");
+            }
+        }
+    }
+}
