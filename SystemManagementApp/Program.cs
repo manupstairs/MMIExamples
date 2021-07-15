@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SystemManagementApp
@@ -21,9 +22,12 @@ namespace SystemManagementApp
             helper.GetPortNameAndFriednlyName();
             helper.GetOsVersion();
 
+            helper.InitializeBrightnessWatcher();
+
             stopWatcher.Stop();
             Console.WriteLine(stopWatcher.Elapsed);
-            Console.ReadKey();
+            while (true) { Thread.Sleep(1000); };
+           // Console.ReadKey();
         }
     }
 }

@@ -100,5 +100,32 @@ namespace SystemManagementApp
             }
 
         }
+
+        private ManagementEventWatcher brightnessEventWatcher;
+        private const string QUERYSCOPE = "root\\WMI";
+
+        public void InitializeBrightnessWatcher()
+        {
+            if (brightnessEventWatcher == null)
+            {
+                //string query = "SELECT Brightness from WmiMonitorBrightnessEvent";
+                string query = "SELECT * from BIOSEvent";
+                brightnessEventWatcher = GetWmiEventWatcher(QUERYSCOPE, query);
+                brightnessEventWatcher.EventArrived += OnBrightnessChange;
+                brightnessEventWatcher.Start();
+            }
+        }
+
+        private ManagementEventWatcher GetWmiEventWatcher(string scopeStr, string queryStr)
+        {
+            ManagementScope scope = new ManagementScope(scopeStr);
+            EventQuery query = new EventQuery(queryStr);
+            return new ManagementEventWatcher(scope, query);
+        }
+
+        private void OnBrightnessChange(object sender, EventArrivedEventArgs e)
+        {
+            Console.WriteLine($"OnBrightnessChange new status is {e.Context}");
+        }
     }
 }

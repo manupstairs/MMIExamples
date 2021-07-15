@@ -124,7 +124,7 @@ namespace MMILibrary
         public void SubscribeBIOSEvent()
         {
             string namespaceName = @"\\.\root\WMI";
-            string query = "SELECT Data FROM BiosEvent";
+            string query = "SELECT * FROM BiosEvent";
 
             SubscribeCimSessionEvent(namespaceName, query);
         }
